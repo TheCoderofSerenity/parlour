@@ -2,38 +2,38 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useAuth } from '@/contexts/AuthContext.jsx';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (!email || !password) {
       toast.error('Please fill in all fields');
       return;
     }
 
     setLoading(true);
-    try {
-      await login(email, password);
-      toast.success('Login successful');
-      navigate('/admin');
-    } catch (error) {
-      toast.error('Invalid email or password');
-      console.error('Login error:', error);
-    } finally {
+
+    // ✅ Dummy login (no backend)
+    setTimeout(() => {
+      if (email === "admin@5taag.com" && password === "admin123") {
+        localStorage.setItem("auth", "true");
+        toast.success('Login successful');
+        navigate('/admin');
+      } else {
+        toast.error('Invalid email or password');
+      }
       setLoading(false);
-    }
+    }, 800);
   };
 
   return (
@@ -82,8 +82,8 @@ const LoginPage = () => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@5taagsalon.com"
-                  className="mt-2 text-foreground placeholder:text-gray-400"
+                  placeholder="admin@5taag.com"
+                  className="mt-2 text-foreground"
                   required
                 />
               </div>
@@ -96,7 +96,7 @@ const LoginPage = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="mt-2 text-foreground placeholder:text-gray-400"
+                  className="mt-2 text-foreground"
                   required
                 />
               </div>
@@ -104,14 +104,14 @@ const LoginPage = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-primary hover:bg-primary/90 transition-all duration-200 active:scale-[0.98]"
+                className="w-full bg-primary hover:bg-primary/90"
               >
                 {loading ? 'Signing in...' : 'Sign in'}
               </Button>
             </form>
 
             <div className="mt-6 text-center">
-              <Link to="/" className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200">
+              <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
                 Back to home
               </Link>
             </div>

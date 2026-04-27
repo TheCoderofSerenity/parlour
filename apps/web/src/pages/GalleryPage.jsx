@@ -4,16 +4,13 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header.jsx';
 import Footer from '@/components/Footer.jsx';
 import GalleryCard from '@/components/GalleryCard.jsx';
-import { useImageManager } from '@/components/ImageManager.jsx';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const GalleryPage = () => {
-  const { images, loading, fetchImagesByCategory } = useImageManager();
 
-  useEffect(() => {
-    fetchImagesByCategory('gallery');
-  }, []);
-
+  const [images] = useState([]);
+  const loading = false;
+  
   const sampleImages = [
     {
       id: 'sample1',

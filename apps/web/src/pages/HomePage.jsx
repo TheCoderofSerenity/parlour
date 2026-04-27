@@ -6,30 +6,10 @@ import { Sparkles, Clock, Award, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header.jsx';
 import Footer from '@/components/Footer.jsx';
-import pb from '@/lib/pocketbaseClient';
+
 
 const HomePage = () => {
-  const [heroImage, setHeroImage] = useState('https://images.unsplash.com/photo-1633681926019-03bd9325ec20');
-
-  useEffect(() => {
-    const fetchHeroImage = async () => {
-      try {
-        const records = await pb.collection('images').getFullList({
-          filter: 'category = "hero"',
-          sort: '-created',
-          $autoCancel: false
-        });
-        if (records.length > 0) {
-          const imageUrl = pb.files.getUrl(records[0], records[0].image);
-          setHeroImage(imageUrl);
-        }
-      } catch (error) {
-        console.error('Error fetching hero image:', error);
-      }
-    };
-
-    fetchHeroImage();
-  }, []);
+  const [heroImage] = useState('https://images.unsplash.com/photo-1633681926019-03bd9325ec20');
 
   const features = [
     {
