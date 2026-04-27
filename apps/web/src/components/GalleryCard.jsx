@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import pb from '@/lib/pocketbaseClient';
 
 const GalleryCard = ({ image, index }) => {
-  const imageUrl = pb.files.getUrl(image, image.image, { thumb: '300x300' });
+  // ✅ Use direct image URL (no backend)
+  const imageUrl = image.image || image.url;
 
   return (
     <motion.div
@@ -19,12 +19,15 @@ const GalleryCard = ({ image, index }) => {
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
+
       {image.title && (
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
           <div className="p-4 text-white">
             <h3 className="font-semibold text-lg">{image.title}</h3>
             {image.description && (
-              <p className="text-sm opacity-90 mt-1">{image.description}</p>
+              <p className="text-sm opacity-90 mt-1">
+                {image.description}
+              </p>
             )}
           </div>
         </div>
